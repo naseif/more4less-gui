@@ -1,31 +1,46 @@
-/**
- * This file will automatically be loaded by webpack and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.js` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import './index.css';
+const searchButton = document.getElementById("searchButton");
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+searchButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+  // @ts-expect-error
+  const getSearchQuery = document.getElementById("searchField").value;
+  const cards_div = document.getElementById("cards_div");
+  cards_div.innerHTML = `<div class="text-center">
+  <div class="spinner-grow text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>`;
+  // @ts-expect-error
+  const searchForProduct = await more4less.search(getSearchQuery);
+  cards_div.innerHTML = "";
+  const html_cards = generateCards(searchForProduct);
+  cards_div.innerHTML = html_cards;
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const generateCards = (searchResult: any[]): string => {
+  let result = "";
+
+  searchResult.forEach((product) => {
+    result += `
+    <div class="col-auto mb-3">
+    <div class="card" style="width: 18rem">
+    <img src="${
+      product.thumbnail ? product.thumbnail : ""
+    }" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title text-black">${product.name}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">${product.engine}</h6>
+        <p class="card-text text-black">Price: ${
+          product.price ? product.price : "Not available"
+        }€</p>
+        <a href="${product.link}" class="card-link">Link</a>
+      </div>
+    </div>
+    </div>
+    `;
+  });
+  return result;
+};

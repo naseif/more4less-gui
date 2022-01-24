@@ -3,13 +3,13 @@
   "productName": "more4less-gui",
   "version": "1.0.0",
   "description": "A cross platform gui app for @naseif/more4less",
-  "main": ".webpack/main",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "tsc && electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts ."
   },
   "keywords": [],
   "author": {
@@ -23,7 +23,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "more4less_gui_ts"
+            "name": "more4less_gui"
           }
         },
         {
@@ -40,24 +40,6 @@
           "name": "@electron-forge/maker-rpm",
           "config": {}
         }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
-                  "name": "main_window"
-                }
-              ]
-            }
-          }
-        ]
       ]
     }
   },
@@ -67,21 +49,15 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.63",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
-    "@vercel/webpack-asset-relocator-loader": "^1.7.0",
-    "css-loader": "^6.5.1",
     "electron": "16.0.7",
     "eslint": "^8.7.0",
     "eslint-plugin-import": "^2.25.4",
-    "fork-ts-checker-webpack-plugin": "^6.5.0",
-    "node-loader": "^2.0.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.2.6",
-    "typescript": "~4.5.4"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "more4less": "^1.6.8"
   }
 }
