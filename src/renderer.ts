@@ -1,22 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 const searchButton = document.getElementById("searchButton");
+const inputField = document.getElementById("searchField");
 
 searchButton.addEventListener("click", async (e) => {
-  e.preventDefault();
-  // @ts-expect-error
-  const getSearchQuery = document.getElementById("searchField").value;
-  const cards_div = document.getElementById("cards_div");
-  cards_div.innerHTML = `<div class="text-center">
-  <div class="spinner-grow text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>`;
-  // @ts-expect-error
-  const searchForProduct = await more4less.search(getSearchQuery);
-  cards_div.innerHTML = "";
-  const html_cards = generateCards(searchForProduct);
-  cards_div.innerHTML = html_cards;
+  await handleSearch(e);
+});
+inputField.addEventListener("keyup", async (e) => {
+  if (e.key === "Enter") {
+    await handleSearch(e);
+  }
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,4 +36,22 @@ const generateCards = (searchResult: any[]): string => {
     `;
   });
   return result;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleSearch = async (e: any) => {
+  e.preventDefault();
+  // @ts-expect-error
+  const getSearchQuery = document.getElementById("searchField").value;
+  const cards_div = document.getElementById("cards_div");
+  cards_div.innerHTML = `<div class="text-center">
+  <div class="spinner-grow text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>`;
+  // @ts-expect-error
+  const searchForProduct = await more4less.search(getSearchQuery);
+  cards_div.innerHTML = "";
+  const html_cards = generateCards(searchForProduct);
+  cards_div.innerHTML = html_cards;
 };
