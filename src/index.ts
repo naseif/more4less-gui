@@ -13,8 +13,8 @@ const createWindow = (): void => {
     width: 1920,
     webPreferences: {
       preload: path.join(__dirname, "../dist/preload.js"),
-      nodeIntegration: true,
-      webSecurity: false,
+      nodeIntegration: false,
+      webSecurity: true,
       contextIsolation: true,
     },
   });

@@ -6,6 +6,7 @@ const inputField = document.getElementById("searchField");
 searchButton.addEventListener("click", async (e) => {
   await handleSearch(e);
 });
+
 inputField.addEventListener("keyup", async (e) => {
   if (e.key === "Enter") {
     await handleSearch(e);
@@ -39,7 +40,7 @@ const generateCards = (searchResult: any[]): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleSearch = async (e: any) => {
+const handleSearch = async (e?: any) => {
   e.preventDefault();
   // @ts-expect-error
   const getSearchQuery = document.getElementById("searchField").value;
@@ -49,6 +50,7 @@ const handleSearch = async (e: any) => {
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>`;
+  console.log(getSearchQuery);
   // @ts-expect-error
   const searchForProduct = await more4less.search(getSearchQuery);
   cards_div.innerHTML = "";
